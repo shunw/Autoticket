@@ -9,6 +9,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+import os
+
 
 class Concert(object):
     def __init__(self, session, price, date, real_name, nick_name, ticket_num, damai_url, target_url, browser):
@@ -83,9 +85,12 @@ class Concert(object):
 
             
     def login(self):
+        # driver = webdriver.Chrome(executable_path='C:/path/to/chromedriver.exe')
+
         if not exists('cookies.pkl'):  # 如果不存在cookie.pkl,就获取一下
             if self.browser == 0: # 选择了Chrome浏览器
-                self.driver = webdriver.Chrome()
+                path = os.path.join(os.getcwd(), 'chromedriver')
+                self.driver = webdriver.Chrome(path)
             elif self.browser == 1: # 选择了Firefox浏览器
                 self.driver = webdriver.Firefox()
             else:
@@ -406,6 +411,8 @@ if __name__ == '__main__':
     #     sleep(1)
     # print('开始进入抢票 %s' % startTime)
     # print('正在执行...')
+
+
     try:
         with open('./config.json', 'r', encoding='utf-8') as f:
                     config = loads(f.read())
@@ -430,3 +437,5 @@ if __name__ == '__main__':
             print(e)
             con.driver.get(con.target_url)
     con.finish()
+
+    
